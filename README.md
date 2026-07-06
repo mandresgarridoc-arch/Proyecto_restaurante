@@ -10,6 +10,3 @@ npm install -D nodemon \
 
 4-. El archivo .env lo debe crear cada uno en la carpeta backend, con la conexion a atlas\
 
-
-
-
