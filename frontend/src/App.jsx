@@ -18,7 +18,7 @@ function App() {
   return (
     <div style={{ textAlign: 'center', marginTop: '50px' }}>
       <h1>¡Bienvenido a SisGes!</h1>
-      <p>Estado del Backend: {datos ? datos : "Si aparece esto es por que el fron y el back estan conectados"}</p>
+      <p>Estado del Backend: {datos ? datos : "Si aparece esto es por que el front y el back estan conectados"}</p>
     </div>
   );
 }
