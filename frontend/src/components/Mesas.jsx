@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Navbar from './Navbar'; // Asegúrate de importar el componente Navbar que tenías
-import "../App.css"; // Importa el archivo de estilos que tenía tus colores
+import Navbar from './Navbar'; 
+import "../App.css"; 
 
 const Mesas = () => {
   const navigate = useNavigate();
@@ -13,13 +13,22 @@ const Mesas = () => {
 
   return (
     <div className="layout-principal"> 
-      <Navbar /> {/* Aquí vuelve tu barra de navegación */}
+      <Navbar /> 
       
       <main className="contenido-cozy">
-        <h1>Selecciona una mesa</h1>
+        <h1 style={{ color: '#334155', textAlign: 'center', marginBottom: '2rem' }}>
+            Selecciona una mesa
+        </h1>
+        
         <div className="contenedor-mesas">
-            <button className="btn-mesa" onClick={() => seleccionarMesa(1)}>Mesa 1</button>
-            <button className="btn-mesa" onClick={() => seleccionarMesa(2)}>Mesa 2</button>
+            <button className="btn-mesa" onClick={() => seleccionarMesa(1)}>
+                <span className="mesa-numero">Mesa 1</span>
+                <span className="mesa-estado">Disponible</span>
+            </button>
+            <button className="btn-mesa" onClick={() => seleccionarMesa(2)}>
+                <span className="mesa-numero">Mesa 2</span>
+                <span className="mesa-estado">Disponible</span>
+            </button>
         </div>
       </main>
     </div>
