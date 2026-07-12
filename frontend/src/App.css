@@ -51,3 +51,53 @@ body {
   transform: scale(1.05);
   background-color: #8A9A5B;
 }
+
+/* Título más oscuro para que no se pierda */
+.titulo-seccion {
+  color: #2c3e50;
+  margin-top: 20px;
+}
+
+.subtitulo {
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* Estado de las mesas */
+.btn-mesa {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  height: 120px;
+  border: none;
+  border-radius: 15px;
+  color: white;
+  cursor: pointer;
+}
+
+.btn-mesa.disponible {
+  background-color: #8A9A5B; /* Sage Green */
+}
+
+.btn-mesa.ocupada {
+  background-color: #d4a373; /* Un tono café/naranja para ocupado */
+}
+
+.contenedor-pedido { padding: 20px; background-color: #fdfbf7; min-height: 100vh; }
+
+.titulo-pedido { color: #2c3e50; text-align: center; margin-bottom: 30px; }
+
+.categoria-seccion { margin-bottom: 30px; }
+.categoria-seccion h2 { color: #8A9A5B; border-bottom: 2px solid #B2AC88; }
+
+.grid-productos { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
+
+.card-producto { 
+  background: #fff; padding: 10px; border-radius: 8px; 
+  display: flex; justify-content: space-between; align-items: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.resumen { margin-top: 40px; padding: 20px; background: #B2AC88; color: white; border-radius: 10px; }

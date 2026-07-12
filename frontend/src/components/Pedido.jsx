@@ -12,29 +12,42 @@ const Pedido = () => {
       .then(res => setMenu(res.data));
   }, []);
 
-  const agregar = (producto) => {
+  // Agrupar productos por categoría
+  const categorias = [...new Set(menu.map(p => p.categoria))];
+
+  const modificarCantidad = (prod, delta) => {
     setItems(prev => {
-      const existe = prev.find(i => i.nombre_plato === producto.nombre);
-      return existe 
-        ? prev.map(i => i.nombre_plato === producto.nombre ? {...i, cantidad: i.cantidad + 1} : i)
-        : [...prev, { nombre_plato: producto.nombre, precio_unitario: producto.precio, cantidad: 1 }];
+      const existe = prev.find(i => i.nombre === prod.nombre);
+      if (!existe && delta > 0) return [...prev, { ...prod, cantidad: 1 }];
+      return prev.map(i => i.nombre === prod.nombre 
+        ? { ...i, cantidad: Math.max(0, i.cantidad + delta) } 
+        : i).filter(i => i.cantidad > 0);
     });
   };
 
   return (
-    <div>
+    <div className="contenedor-pedido">
       <Navbar />
-      <h1>Tomar Pedido - Mesa {mesa}</h1>
-      <div className="menu">
-        {menu.map(p => (
-          <button key={p._id} onClick={() => agregar(p)}>{p.nombre} (${p.precio})</button>
-        ))}
-      </div>
-      
+      <h1 className="titulo-pedido">Tomar Pedido - Mesa {mesa}</h1>
+
+      {categorias.map(cat => (
+        <div key={cat} className="categoria-seccion">
+          <h2>{cat}</h2>
+          <div className="grid-productos">
+            {menu.filter(p => p.categoria === cat).map(p => (
+              <div key={p._id} className="card-producto">
+                <span>{p.nombre} - ${p.precio}</span>
+                <button onClick={() => modificarCantidad(p, 1)}>+</button>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+
       <div className="resumen">
-        <h3>Tu Comanda</h3>
+        <h2>Tu Comanda</h2>
         {items.map((i, idx) => (
-          <p key={idx}>{i.nombre_plato} x{i.cantidad} = ${i.precio_unitario * i.cantidad}</p>
+          <p key={idx}>{i.nombre} x{i.cantidad} = ${i.precio * i.cantidad}</p>
         ))}
       </div>
     </div>
