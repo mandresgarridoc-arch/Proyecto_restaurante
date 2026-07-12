@@ -7,6 +7,11 @@ https://nodejs.org/es \
 npm init -y \
 npm install express mongoose dotenv cors \
 npm install -D nodemon \
+npm install helmet
+npm install morgan
+npm install date-fns
+npm install -D concurrently
+npm install axios
 EN AMBAS CARPETAS BACKEND Y FRONTEND(ACCEDER CON CD..) INSTALAR\
 **npm install** /
 sino no pueden encender el servidor
