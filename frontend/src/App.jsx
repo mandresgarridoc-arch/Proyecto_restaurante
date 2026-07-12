@@ -1,26 +1,27 @@
+// Archivo: src/App.jsx
 import { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import axios from 'axios';
-import gato from './assets/gato-exito.png'; // 1. Importa tu gato
+import gato from './assets/gato-exito.png';
+import AdminEnConstruccion from "./pages/AdminEnConstruccion";
 
-function App() {
+// Componente para la Interfaz del Mesero
+function VistaMesero() {
   const [datos, setDatos] = useState(null);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/')
+    // Asegúrate de que el puerto coincida con tu backend (3000 o 5000)
+    axios.get('http://localhost:3000/')
       .then(response => setDatos(response.data.mensaje))
       .catch(err => console.error("Error:", err));
   }, []);
 
   return (
     <div style={{ textAlign: 'center', marginTop: '50px' }}>
-      <h1>¡Bienvenido a SisGes!</h1>
-      
-      {/* Texto de estado */}
-      <p style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>
+      <h1>🍽️ Interfaz del Mesero</h1>
+      <p style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#4a5d23' }}>
         Estado del Backend: {datos ? datos : "Cargando..."}
       </p>
-
-      {/* 2. El gato que confirma que todo funciona */}
       {datos && (
         <img 
           src={gato} 
@@ -29,6 +30,21 @@ function App() {
         />
       )}
     </div>
+  );
+}
+
+// Componente principal con el Enrutador
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        {/* Ruta principal para el Mesero */}
+        <Route path="/" element={<VistaMesero />} />
+        
+        {/* Ruta aislada para el Administrador (área en construcción) */}
+        <Route path="/admin/*" element={<AdminEnConstruccion />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
