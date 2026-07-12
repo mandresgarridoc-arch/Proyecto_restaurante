@@ -1,26 +1,34 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Navbar from "../components/Navbar";
 
 export default function ListadoMesas() {
   const [mesas, setMesas] = useState([]);
 
   useEffect(() => {
-    // Aquí le pedimos al backend la lista que guardamos en MongoDB
     axios.get("http://localhost:3000/api/mesero/mesas")
-      .then(res => setMesas(res.data))
-      .catch(err => console.error("Error al traer mesas:", err));
+      .then(res => setMesas(res.data));
   }, []);
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>🍽️ Mesas del Restaurante</h1>
-      <div style={{ display: "grid", gap: "10px", gridTemplateColumns: "repeat(3, 1fr)" }}>
-        {mesas.map((mesa) => (
-          <div key={mesa._id} style={{ border: "1px solid #ccc", padding: "20px", borderRadius: "10px" }}>
-            <h3>Mesa {mesa.numero}</h3>
-            <p>Capacidad: {mesa.capacidad} personas</p>
-            <p>Estado: <strong>{mesa.estado}</strong></p>
-            <button>Tomar Pedido</button>
+    <div style={{ backgroundColor: "#fdfbf7", minHeight: "100vh" }}>
+      <Navbar />
+      <h1 style={{ textAlign: "center", color: "#4a5d23", marginTop: "20px" }}>Mesas Disponibles</h1>
+      
+      <div style={{ 
+        display: "grid", gridTemplateColumns: "repeat(3, 200px)", 
+        gap: "20px", justifyContent: "center", marginTop: "30px" 
+      }}>
+        {mesas.map((m) => (
+          <div key={m._id} style={{ 
+            backgroundColor: "#e3eac5", padding: "20px", borderRadius: "20px", 
+            textAlign: "center", border: "2px solid #8fa36b", transition: "0.3s"
+          }}>
+            <h3>Mesa {m.numero}</h3>
+            <p>Capacidad: {m.capacidad}</p>
+            <button style={{ backgroundColor: "#8fa36b", color: "white", border: "none", padding: "10px", borderRadius: "10px", cursor: "pointer" }}>
+              Tomar Pedido
+            </button>
           </div>
         ))}
       </div>
