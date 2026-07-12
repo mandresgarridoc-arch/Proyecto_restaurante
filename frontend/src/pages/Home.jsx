@@ -1,20 +1,34 @@
-// Archivo: src/pages/Home.jsx
-import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
-export default function Home() {
+const Home = () => {
+  const navigate = useNavigate();
+
   return (
-    <div style={{ 
-      height: "100vh", backgroundColor: "#fdfbf7", display: "flex", 
-      flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "30px" 
-    }}>
-      <h1 style={{ color: "#4a5d23", fontSize: "3rem", margin: 0 }}>Bienvenido a SisGes</h1>
-      
-      <div style={{ display: "flex", gap: "20px" }}>
-        {/* AQUÍ ESTABA EL ERROR. Cámbialo a /listado-mesas */}
-        <Link to="/listado-mesas" style={{ padding: "15px 30px", backgroundColor: "#a8c69f", borderRadius: "10px", textDecoration: "none", color: "white", fontWeight: "bold" }}>Mesero</Link>
-        
-        <Link to="/admin" style={{ padding: "15px 30px", backgroundColor: "#d4a373", borderRadius: "10px", textDecoration: "none", color: "white", fontWeight: "bold" }}>Administrador</Link>
+    <div className="home-container">
+      <div className="home-card">
+        <h1 className="home-title">Bienvenido a SisGes</h1>
+        <p className="home-subtitle">Sistema de Gestión para Restaurantes</p>
+
+        <div className="home-buttons">
+          <button 
+            className="btn-role btn-mesero" 
+            onClick={() => navigate('/listado-mesas')}
+          >
+            <span className="btn-icon">📝</span>
+            <span className="btn-text">Vista Mesero</span>
+          </button>
+
+          <button 
+            className="btn-role btn-admin" 
+            onClick={() => navigate('/admin')}
+          >
+            <span className="btn-icon">⚙️</span>
+            <span className="btn-text">Administrador</span>
+          </button>
+        </div>
       </div>
     </div>
   );
-}
+};
+
+export default Home;

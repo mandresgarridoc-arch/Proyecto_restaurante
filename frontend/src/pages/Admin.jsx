@@ -1,37 +1,50 @@
-// Archivo: src/pages/AdminEnConstruccion.jsx
-export default function AdminEnConstruccion() {
-  const estilos = {
-    contenedor: {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      height: "100vh",
-      backgroundColor: "#fdfbf7", // Crema suave
-      color: "#4a5d23", // Verde salvia oscuro
-      fontFamily: "sans-serif",
-      textAlign: "center"
-    },
-    tarjeta: {
-      backgroundColor: "#e3eac5", // Verde matcha clarito
-      padding: "40px",
-      borderRadius: "15px",
-      boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
-      border: "2px dashed #8fa36b" // Verde salvia medio
-    },
-    titulo: {
-      margin: "0 0 10px 0",
-      fontSize: "2rem"
-    }
-  };
+import { useState } from 'react';
+import Navbar from '../components/Navbar'; // Importamos tu Navbar existente
+import GestionProductos from '../components/Admin/GestionProductos';
+import DashboardReportes from '../components/Admin/DashboardReportes';
+import HistorialBoletas from '../components/Admin/HistorialBoletas';
+
+const Admin = () => {
+  const [activeTab, setActiveTab] = useState('productos');
 
   return (
-    <div style={estilos.contenedor}>
-      <div style={estilos.tarjeta}>
-        <h1 style={estilos.titulo}>👷 Panel de Administrador</h1>
-        <p>Esta sección está actualmente en construcción.</p>
-        <p><strong>Próximamente:</strong> Gestión de personal, finanzas y reportes.</p>
+    <>
+      <Navbar /> {/* Aquí agregamos la barra de navegación arriba */}
+      
+      <div style={{ padding: '20px', marginTop: '20px' }}>
+        <h1 className="admin-title">Panel de Administración Integral</h1>
+        
+        {/* Sistema de Pestañas */}
+        <div className="admin-tabs">
+          <button 
+            className={`btn-tab ${activeTab === 'productos' ? 'active' : ''}`}
+            onClick={() => setActiveTab('productos')}
+          >
+            📦 Gestión de Menú
+          </button>
+          <button 
+            className={`btn-tab ${activeTab === 'reportes' ? 'active' : ''}`}
+            onClick={() => setActiveTab('reportes')}
+          >
+            📊 Reportes
+          </button>
+          <button 
+            className={`btn-tab ${activeTab === 'boletas' ? 'active' : ''}`}
+            onClick={() => setActiveTab('boletas')}
+          >
+            🧾 Historial de Boletas
+          </button>
+        </div>
+
+        {/* Contenido Dinámico */}
+        <div className="admin-content">
+          {activeTab === 'productos' && <GestionProductos />}
+          {activeTab === 'reportes' && <DashboardReportes />}
+          {activeTab === 'boletas' && <HistorialBoletas />}
+        </div>
       </div>
-    </div>
+    </>
   );
-}
+};
+
+export default Admin;
