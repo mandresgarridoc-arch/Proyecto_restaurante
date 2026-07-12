@@ -1,5 +1,5 @@
 import { Router } from "express";
-// ¡Aquí está la corrección! Agregamos crearMesa a la lista
+import { obtenerMenu } from "../controllers/menuController.js";
 import { obtenerMesas, actualizarEstadoMesa, tomarPedido, crearMesa } from "../controllers/meseroController.js";
 
 const router = Router();
@@ -11,5 +11,7 @@ router.put("/mesas/:id", actualizarEstadoMesa); // PUT: Actualizar estado de una
 
 // Rutas para gestionar los pedidos
 router.post("/pedidos", tomarPedido);           // POST: Crear una nueva comanda
+router.get("/menu", obtenerMenu);
+
 
 export default router;
