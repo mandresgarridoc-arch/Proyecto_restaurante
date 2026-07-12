@@ -1,20 +1,17 @@
-// Archivo: src/App.jsx
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
 import ListadoMesas from "./pages/ListadoMesas";
-import AdminEnConstruccion from "./pages/AdminEnConstruccion.jsx";
+import AdminEnConstruccion from "./pages/AdminEnConstruccion";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Ruta principal: Carga el listado de mesas desde MongoDB */}
-        <Route path="/" element={<ListadoMesas />} />
-        
-        {/* Ruta aislada para el Administrador (área en construcción) */}
-        <Route path="/admin/*" element={<AdminEnConstruccion />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/mesero" element={<ListadoMesas />} />
+        <Route path="/admin" element={<AdminEnConstruccion />} />
       </Routes>
     </BrowserRouter>
   );
 }
-
 export default App;
