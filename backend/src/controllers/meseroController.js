@@ -22,56 +22,59 @@ export const actualizarEstadoMesa = async (req, res) => {
   }
 };
 
-// 3. Tomar un nuevo pedido (ARREGLADO CON TRADUCCIÓN DE CAMPOS)
+// 3. Tomar un nuevo pedido
 export const tomarPedido = async (req, res) => {
-  console.log("¡Pedido recibido en el servidor!", req.body);
   try {
     const { numeroMesa, items, total } = req.body;
-
-    // Validación básica
     if (!numeroMesa || !items || items.length === 0) {
       return res.status(400).json({ error: "Datos del pedido incompletos" });
     }
 
-    // TRADUCCIÓN: Convertimos los campos del Frontend al formato que exige el Modelo
     const itemsFormateados = items.map(item => ({
       nombre_plato: item.nombre,
       precio_unitario: item.precio,
       cantidad: item.cantidad
     }));
 
-    // Creamos el pedido con los campos traducidos
     const nuevoPedido = await Pedido.create({
       numero_mesa: numeroMesa,
       items: itemsFormateados,
       total: total,
       estado: "abierto"
     });
-    console.log("Pedido guardado con éxito:", nuevoPedido._id);
 
-    // Actualizamos la mesa a ocupada
-    const mesaActualizada = await Mesa.findOneAndUpdate(
-      { numero: numeroMesa }, 
-      { estado: "ocupada" },
-      { new: true }
-    );
-
-    if (!mesaActualizada) {
-      return res.status(404).json({ error: "No se encontró la mesa para actualizar su estado" });
-    }
-
+    await Mesa.findOneAndUpdate({ numero: numeroMesa }, { estado: "ocupada" });
     res.status(201).json(nuevoPedido);
   } catch (error) {
-    console.error("ERROR DETALLADO EN TOMAR PEDIDO:", error);
+    console.error("ERROR EN TOMAR PEDIDO:", error);
     res.status(500).json({ error: error.message });
   }
 };
 
-// 4. Finalizar pedido
+// 4. NUEVA: Obtener el pedido abierto de una mesa específica (Para la Boleta)
+export const obtenerPedidoPorMesa = async (req, res) => {
+  try {
+    const { numeroMesa } = req.params;
+    // Buscamos el pedido abierto para esa mesa
+    const pedido = await Pedido.findOne({ numero_mesa: numeroMesa, estado: "abierto" });
+    
+    if (!pedido) {
+      return res.status(404).json({ error: "No se encontró un pedido activo para esta mesa" });
+    }
+    res.status(200).json(pedido);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// 5. Finalizar pedido
 export const finalizarPedido = async (req, res) => {
   try {
     const { numeroMesa } = req.body;
+    // Liberamos la mesa y marcamos el pedido como cerrado
     await Mesa.findOneAndUpdate({ numero: numeroMesa }, { estado: "disponible" });
+    await Pedido.findOneAndUpdate({ numero_mesa: numeroMesa, estado: "abierto" }, { estado: "cerrado" });
+    
     res.status(200).json({ mensaje: "Pedido finalizado y mesa liberada" });
   } catch (error) {
     console.error("ERROR AL FINALIZAR:", error);
@@ -79,7 +82,7 @@ export const finalizarPedido = async (req, res) => {
   }
 };
 
-// 5. Crear mesa
+// 6. Crear mesa
 export const crearMesa = async (req, res) => {
   try {
     const mesa = await Mesa.create(req.body);

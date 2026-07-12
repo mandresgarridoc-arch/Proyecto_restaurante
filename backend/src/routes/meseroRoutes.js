@@ -5,7 +5,8 @@ import {
     actualizarEstadoMesa, 
     tomarPedido, 
     crearMesa, 
-    finalizarPedido // Asegúrate de exportar esta función desde tu controlador
+    finalizarPedido,
+    obtenerPedidoPorMesa // Importamos la nueva función
 } from "../controllers/meseroController.js";
 
 const router = Router();
@@ -16,8 +17,8 @@ router.post("/mesas", crearMesa);
 router.put("/mesas/:id", actualizarEstadoMesa);
 
 // Rutas para gestionar los pedidos
-// Corregido: cambiamos /pedidos a /pedido para que coincida con el frontend
 router.post("/pedido", tomarPedido); 
+router.get("/pedido/:numeroMesa", obtenerPedidoPorMesa); // Nueva ruta para ver la boleta
 
 // Nueva ruta para finalizar y cobrar
 router.post("/finalizar", finalizarPedido);
