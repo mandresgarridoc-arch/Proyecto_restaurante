@@ -19,9 +19,16 @@ const ListadoMesas = () => {
       });
   }, []);
 
-  const seleccionarMesa = (numeroMesa) => {
-    localStorage.setItem("mesaSeleccionada", numeroMesa);
-    navigate("/pedido");
+  // Función lógica para decidir a dónde ir
+  const manejarClickMesa = (mesa) => {
+    localStorage.setItem("mesaSeleccionada", mesa.numero);
+    
+    if (mesa.estado === 'disponible') {
+      navigate("/pedido");
+    } else {
+      // Si está ocupada, vamos a la vista de boleta/finalización
+      navigate("/boleta");
+    }
   };
 
   return (
@@ -34,12 +41,19 @@ const ListadoMesas = () => {
         {mesas.map((m) => (
           <button 
             key={m._id} 
-            onClick={() => seleccionarMesa(m.numero)} 
+            onClick={() => manejarClickMesa(m)} 
             className={`btn-mesa ${m.estado === 'disponible' ? 'disponible' : 'ocupada'}`}
           >
             <strong>Mesa {m.numero}</strong>
             <small>{m.estado === 'disponible' ? "Disponible" : "Ocupada"}</small>
             <span>Capacidad: {m.capacidad}</span>
+            
+            {/* Indicador extra si está ocupada */}
+            {m.estado !== 'disponible' && (
+              <span style={{ fontSize: '0.75rem', marginTop: '5px', textDecoration: 'underline' }}>
+                Ver Pedido
+              </span>
+            )}
           </button>
         ))}
       </div>

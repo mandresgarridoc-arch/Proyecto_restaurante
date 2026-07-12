@@ -101,3 +101,56 @@ body {
 }
 
 .resumen { margin-top: 40px; padding: 20px; background: #B2AC88; color: white; border-radius: 10px; }
+
+
+.menu-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra horizontalmente */
+  width: 100%;
+}
+
+.grid-productos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Esto es lo que centra los botones */
+  gap: 15px;
+  max-width: 800px; /* Ajusta este ancho según prefieras */
+  margin: 0 auto;   /* Centra el contenedor completo */
+}
+
+.btn-accion {
+  padding: 10px 20px;
+  background-color: #8A9A5B;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+
+.card-producto {
+  background-color: transparent; /* Fondo transparente como en tu imagen */
+  color: #333;
+  border: 1px solid #8A9A5B;    /* Borde fino */
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s;
+  min-width: 200px;
+}
+
+.card-producto:hover {
+  background-color: #f0f0e0;
+}
+
+/* Asegurar que las categorías se vean bien */
+.categoria-seccion h2 {
+  text-align: center;
+  color: #8A9A5B;
+  margin-top: 30px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #8A9A5B;
+}

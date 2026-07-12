@@ -1,17 +1,28 @@
 import { Router } from "express";
 import { obtenerMenu } from "../controllers/menuController.js";
-import { obtenerMesas, actualizarEstadoMesa, tomarPedido, crearMesa } from "../controllers/meseroController.js";
+import { 
+    obtenerMesas, 
+    actualizarEstadoMesa, 
+    tomarPedido, 
+    crearMesa, 
+    finalizarPedido // Asegúrate de exportar esta función desde tu controlador
+} from "../controllers/meseroController.js";
 
 const router = Router();
 
 // Rutas para gestionar las mesas
-router.get("/mesas", obtenerMesas);             // GET: Ver todas las mesas
-router.post("/mesas", crearMesa);               // POST: Crear una mesa nueva
-router.put("/mesas/:id", actualizarEstadoMesa); // PUT: Actualizar estado de una mesa
+router.get("/mesas", obtenerMesas);
+router.post("/mesas", crearMesa);
+router.put("/mesas/:id", actualizarEstadoMesa);
 
 // Rutas para gestionar los pedidos
-router.post("/pedidos", tomarPedido);           // POST: Crear una nueva comanda
-router.get("/menu", obtenerMenu);
+// Corregido: cambiamos /pedidos a /pedido para que coincida con el frontend
+router.post("/pedido", tomarPedido); 
 
+// Nueva ruta para finalizar y cobrar
+router.post("/finalizar", finalizarPedido);
+
+// Ruta del menú
+router.get("/menu", obtenerMenu);
 
 export default router;
