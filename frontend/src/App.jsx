@@ -1,17 +1,19 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import ListadoMesas from "./pages/ListadoMesas";
-import AdminEnConstruccion from "./pages/AdminEnConstruccion";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import ListadoMesas from './pages/ListadoMesas';
+import Admin from './pages/Admin';
+import Pedido from './components/Pedido';
 
 function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/mesero" element={<ListadoMesas />} />
-        <Route path="/admin" element={<AdminEnConstruccion />} />
+        <Route path="/listado-mesas" element={<ListadoMesas />} />
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/pedido" element={<Pedido />} />
       </Routes>
-    </BrowserRouter>
+    </Router>
   );
 }
 export default App;
