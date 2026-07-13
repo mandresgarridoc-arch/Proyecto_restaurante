@@ -1,8 +1,12 @@
 import Pedido from '../models/Pedido.js';
 
 // --- 1. REPORTES Y MÉTRICAS ---
+
+// trae los reportes de la base datos
 export const getReportes = async (req, res) => {
   try {
+
+    // en el frotned le pasamos los parametros de fechaInicio y fechaFin, que son opcionales, y si no se pasan, se traen todos los pedidos
     const { fechaInicio, fechaFin } = req.query;
     let matchStage = { estado: 'cerrado' }; 
 
@@ -52,6 +56,7 @@ export const getReportes = async (req, res) => {
 // --- 2. HISTORIAL DE BOLETAS ---
 export const getBoletas = async (req, res) => {
   try {
+    // recibe el id y la fecha como parametros de entrada para los filtros.
     const { id, fecha } = req.query;
     let query = { estado: 'cerrado' };
 

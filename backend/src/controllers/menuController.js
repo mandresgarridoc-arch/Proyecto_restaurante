@@ -1,9 +1,13 @@
 import Producto from "../models/Producto.js";
 
+// metodos html son get,post,put,delete
+// trae los productos
 // 1. Obtener TODOS los productos (Para el panel de Admin - muestra activos e inactivos)
-export const getProductos = async (req, res) => {
+export const getProductos = async (req, res, next) => {
   try {
+    // no recibe parametros de entrada, simplemente trae todos los productos de la base de datos
     const productos = await Producto.find();
+    // el codigo 200 significa que la peticion fue exitosa y se devuelve el resultado en formato JSON
     res.status(200).json(productos);
   } catch (error) {
     res.status(500).json({ mensaje: "Error al obtener productos", error: error.message });
@@ -22,7 +26,7 @@ export const obtenerMenu = async (req, res) => {
 };
 
 // 3. Crear producto
-export const crearProducto = async (req, res) => {
+export const crearProducto = async (req, res, next) => {
   try {
     const nuevoProducto = await Producto.create(req.body);
     res.status(201).json(nuevoProducto);
@@ -39,6 +43,12 @@ export const actualizarProducto = async (req, res) => {
       req.body,
       { new: true }
     );
+
+    if (!productoActualizado) {
+      // el codigo 404 significa que el recurso no fue encontrado y se devuelve un mensaje de error en formato JSON
+      return res.status(404).json({ mensaje: "Producto no encontrado" });
+    }
+
     res.status(200).json(productoActualizado);
   } catch (error) {
     res.status(500).json({ mensaje: "Error al actualizar", error: error.message });

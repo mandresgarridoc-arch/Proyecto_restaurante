@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+
+// Aquí defino el objeto del backend, que es basicamente lo mismo que definimos en el modelo de datos de la BD
 const mesaSchema = new mongoose.Schema(
   {
     numero: {
@@ -7,7 +9,7 @@ const mesaSchema = new mongoose.Schema(
       required: true,
       unique: true 
     },
-    capacidad: { // <-- ¡Aquí agregamos la cantidad de comensales!
+    capacidad: { //aquí agregamos la cantidad de comensales!
       type: Number,
       required: true,
       min: 1 // Una mesa debe ser para al menos 1 persona

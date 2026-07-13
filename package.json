@@ -19,12 +19,17 @@
   },
   "homepage": "https://github.com/mandresgarridoc-arch/Proyecto_restaurante#readme",
   "dependencies": {
+    "axios": "^1.18.1",
     "cors": "^2.8.6",
+    "date-fns": "^4.4.0",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
-    "mongoose": "^9.7.4"
+    "helmet": "^8.3.0",
+    "mongoose": "^9.7.4",
+    "morgan": "^1.11.0"
   },
   "devDependencies": {
+    "concurrently": "^10.0.3",
     "nodemon": "^3.1.14"
   }
 }
