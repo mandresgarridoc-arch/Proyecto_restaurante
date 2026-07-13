@@ -1,10 +1,13 @@
 import mongoose from "mongoose";
 
 const productoSchema = new mongoose.Schema({
-  nombre: String,
-  precio: Number,
-  categoria: String
-});
+  nombre: { type: String, required: true },
+  precio: { type: Number, required: true },
+  categoria: { type: String, required: true },
+  
+  // NUEVO: Este es el campo mágico que permite el Soft Delete
+  disponible: { type: Boolean, default: true } 
 
-// Forzamos a que se guarde en la colección "productos"
-export default mongoose.model("Producto", productoSchema, "productos");
+}, { timestamps: true });
+
+export default mongoose.model("Producto", productoSchema);

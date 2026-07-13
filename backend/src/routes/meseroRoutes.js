@@ -6,7 +6,8 @@ import {
     tomarPedido, 
     crearMesa, 
     finalizarPedido,
-    obtenerPedidoPorMesa // Importamos la nueva función
+    obtenerPedidoPorMesa,
+    cancelarPedidoAbierto // FIX: Importamos la nueva función
 } from "../controllers/meseroController.js";
 
 const router = Router();
@@ -22,6 +23,9 @@ router.get("/pedido/:numeroMesa", obtenerPedidoPorMesa); // Nueva ruta para ver 
 
 // Nueva ruta para finalizar y cobrar
 router.post("/finalizar", finalizarPedido);
+
+// FIX: Nueva ruta para CANCELAR la venta (Botón rojo)
+router.post("/pedidos/cancelar", cancelarPedidoAbierto);
 
 // Ruta del menú
 router.get("/menu", obtenerMenu);
