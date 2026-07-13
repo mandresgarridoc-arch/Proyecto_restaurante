@@ -1,7 +1,7 @@
 import Producto from '../models/Producto.js';
 
 
-
+//metodos html son get,push,put,delete
 // trae los productos
 export const getProductos = async (req, res, next) => {
   try {

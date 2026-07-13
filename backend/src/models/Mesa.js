@@ -9,7 +9,7 @@ const mesaSchema = new mongoose.Schema(
       required: true,
       unique: true 
     },
-    capacidad: { // <-- ¡Aquí agregamos la cantidad de comensales!
+    capacidad: { //aquí agregamos la cantidad de comensales!
       type: Number,
       required: true,
       min: 1 // Una mesa debe ser para al menos 1 persona

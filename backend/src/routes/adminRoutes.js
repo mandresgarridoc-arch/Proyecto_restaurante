@@ -4,6 +4,7 @@ import { getProductos, crearProducto, actualizarProducto, eliminarProducto } fro
 
 const router = Router();
 
+//metodos html son get, post, put, delete
 // Rutas de Reportes y Boletas
 router.get('/reportes', getReportes);
 router.get('/boletas', getBoletas);
