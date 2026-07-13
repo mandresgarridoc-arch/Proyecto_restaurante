@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+
+// Aquí defino el objeto del backend, que es basicamente lo mismo que definimos en el modelo de datos de la BD
 const mesaSchema = new mongoose.Schema(
   {
     numero: {

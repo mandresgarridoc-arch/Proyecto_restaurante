@@ -5,17 +5,23 @@ import Navbar from '../components/Navbar';
 import '../App.css';
 
 const Pedido = () => {
+
+  // use state, es un componente de react que permite manejar el estado de un componente, en este caso se usa para manejar el menu y los items del pedido
+  // cuando digo manejar un estado, me refiero que puedo cambiar el valor de una variable y que el componente se vuelva a renderizar con el nuevo valor
   const [menu, setMenu] = useState([]);
   const [items, setItems] = useState([]);
   const mesa = localStorage.getItem("mesaSeleccionada");
   const navigate = useNavigate();
 
+  // este es un hook de react que se ejecuta cuando el componente se monta, y hace una petición al backend para obtener el menú
   useEffect(() => {
     axios.get("http://localhost:3000/api/mesero/menu")
       .then(res => setMenu(res.data))
       .catch(err => console.error("Error al cargar menú:", err));
   }, []);
 
+
+  // Aqui hay un serie de funciones que permiten modificar la cantidad de productos en el pedido, eliminar productos y enviar el pedido al backend
   const modificarCantidad = (prod, delta) => {
     setItems(prev => {
       const existe = prev.find(i => i.nombre === prod.nombre);
@@ -27,6 +33,7 @@ const Pedido = () => {
     });
   };
 
+  // est
   const eliminar = (nombreProducto) => {
     setItems(prev => prev.filter(item => item.nombre !== nombreProducto));
   };
@@ -54,6 +61,7 @@ const Pedido = () => {
 
   const categorias = [...new Set(menu.map(p => p.categoria))];
 
+  // la funcion returnn renderiza el componente, en palabras simples crea el bloque de codigo html que se mostrara en la pantalla. 
   return (
     <div className="contenedor-pedido">
       <Navbar />
