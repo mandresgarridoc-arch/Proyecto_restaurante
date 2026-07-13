@@ -8,12 +8,14 @@ dotenv.config();
 
 const PORT = process.env.PORT || 5000;
 
-// 2. AGREGA ESTA LÍNEA AQUÍ: Permite peticiones desde cualquier origen (Frontend)
+// 2. Permite peticiones desde cualquier origen (Frontend)
 app.use(cors()); 
 
-// Registrar las rutas
+// Registrar las rutas de administracion
 app.use("/api/admin", adminRoutes);
 
+//aqui levantamos el backend
+//Le digo a express que funcione de forma asincrona y que este escuchando en el puerto 5000, y que cuando se levante me muestre un mensaje en la consola
 const startServer = async () => {
     try {
         await connectDB();
