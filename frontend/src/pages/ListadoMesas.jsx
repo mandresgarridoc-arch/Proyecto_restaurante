@@ -32,32 +32,38 @@ const ListadoMesas = () => {
   };
 
   return (
-    <div className="contenedor-mesero">
+    // FIX: Envolvemos todo en un contenedor sin márgenes (Fragmento de React)
+    <> 
+      {/* El Navbar ahora está libre arriba del todo, pegado a los bordes */}
       <Navbar />
-      <h1 className="titulo-seccion">Vista Mesero</h1>
-      <p className="subtitulo">Selecciona una mesa para gestionar el pedido</p>
       
-      <div className="grid-mesas">
-        {mesas.map((m) => (
-          <button 
-            key={m._id} 
-            onClick={() => manejarClickMesa(m)} 
-            className={`btn-mesa ${m.estado === 'disponible' ? 'disponible' : 'ocupada'}`}
-          >
-            <strong>Mesa {m.numero}</strong>
-            <small>{m.estado === 'disponible' ? "Disponible" : "Ocupada"}</small>
-            <span>Capacidad: {m.capacidad}</span>
-            
-            {/* Indicador extra si está ocupada */}
-            {m.estado !== 'disponible' && (
-              <span style={{ fontSize: '0.75rem', marginTop: '5px', textDecoration: 'underline' }}>
-                Ver Pedido
-              </span>
-            )}
-          </button>
-        ))}
+      {/* El resto de tu vista mesero sigue conservando sus estilos en su propia caja */}
+      <div className="contenedor-mesero">
+        <h1 className="titulo-seccion">Vista Mesero</h1>
+        <p className="subtitulo">Selecciona una mesa para gestionar el pedido</p>
+        
+        <div className="grid-mesas">
+          {mesas.map((m) => (
+            <button 
+              key={m._id} 
+              onClick={() => manejarClickMesa(m)} 
+              className={`btn-mesa ${m.estado === 'disponible' ? 'disponible' : 'ocupada'}`}
+            >
+              <strong>Mesa {m.numero}</strong>
+              <small>{m.estado === 'disponible' ? "Disponible" : "Ocupada"}</small>
+              <span>Capacidad: {m.capacidad}</span>
+              
+              {/* Indicador extra si está ocupada */}
+              {m.estado !== 'disponible' && (
+                <span style={{ fontSize: '0.75rem', marginTop: '5px', textDecoration: 'underline' }}>
+                  Ver Pedido
+                </span>
+              )}
+            </button>
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getReportes, getBoletas } from '../controllers/AdminController.js';
+import { getReportes, getBoletas, eliminarBoleta } from '../controllers/AdminController.js';
 import { getProductos, crearProducto, actualizarProducto, eliminarProducto } from '../controllers/menuController.js';
 
 const router = Router();
@@ -8,6 +8,7 @@ const router = Router();
 // Rutas de Reportes y Boletas
 router.get('/reportes', getReportes);
 router.get('/boletas', getBoletas);
+router.delete('/boletas/:id', eliminarBoleta); // <-- NUEVA RUTA PARA BORRAR BOLETAS
 
 // Rutas de Gestión de Menú
 router.get('/productos', getProductos);

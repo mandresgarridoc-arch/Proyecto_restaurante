@@ -24,7 +24,11 @@ const pedidoSchema = new mongoose.Schema(
       type: Number,
       required: true
     },
-    items: [itemPedidoSchema], // Lista de platos (como el List[ItemPedidoDTO] de Python)
+    // CAMPO: Guardará el número de 6 dígitos para la boleta
+    numero_boleta: { 
+      type: Number 
+    },
+    items: [itemPedidoSchema], // Lista de platos
     total: {
       type: Number,
       required: true,
@@ -34,7 +38,8 @@ const pedidoSchema = new mongoose.Schema(
       type: String,
       required: true,
       default: "abierto",
-      enum: ["abierto", "cerrado"]
+      // FIX: Agregamos "cancelado" a la lista de estados permitidos
+      enum: ["abierto", "cerrado", "cancelado"] 
     }
   },
   {

@@ -38,6 +38,7 @@ export const tomarPedido = async (req, res) => {
 
     const nuevoPedido = await Pedido.create({
       numero_mesa: numeroMesa,
+      numero_boleta: Math.floor(100000 + Math.random() * 900000),
       items: itemsFormateados,
       total: total,
       estado: "abierto"
@@ -51,11 +52,10 @@ export const tomarPedido = async (req, res) => {
   }
 };
 
-// 4. NUEVA: Obtener el pedido abierto de una mesa específica (Para la Boleta)
+// 4. Obtener el pedido abierto de una mesa específica (Para la Boleta)
 export const obtenerPedidoPorMesa = async (req, res) => {
   try {
     const { numeroMesa } = req.params;
-    // Buscamos el pedido abierto para esa mesa
     const pedido = await Pedido.findOne({ numero_mesa: numeroMesa, estado: "abierto" });
     
     if (!pedido) {
@@ -71,7 +71,6 @@ export const obtenerPedidoPorMesa = async (req, res) => {
 export const finalizarPedido = async (req, res) => {
   try {
     const { numeroMesa } = req.body;
-    // Liberamos la mesa y marcamos el pedido como cerrado
     await Mesa.findOneAndUpdate({ numero: numeroMesa }, { estado: "disponible" });
     await Pedido.findOneAndUpdate({ numero_mesa: numeroMesa, estado: "abierto" }, { estado: "cerrado" });
     
@@ -88,6 +87,28 @@ export const crearMesa = async (req, res) => {
     const mesa = await Mesa.create(req.body);
     res.status(201).json(mesa);
   } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// 7. NUEVA: Cancelar venta (liberar mesa y marcar pedido como cancelado)
+export const cancelarPedidoAbierto = async (req, res) => {
+  try {
+    const { numeroMesa } = req.body;
+
+    // 1. Liberamos la mesa para que vuelva a estar verde
+    await Mesa.findOneAndUpdate({ numero: numeroMesa }, { estado: "disponible" });
+
+    // 2. Marcamos el pedido como "cancelado" para que no sume dinero en el Dashboard Admin
+    const pedidoCancelado = await Pedido.findOneAndUpdate(
+      { numero_mesa: numeroMesa, estado: "abierto" },
+      { estado: "cancelado" }, 
+      { new: true }
+    );
+
+    res.status(200).json({ mensaje: "Venta cancelada exitosamente y mesa liberada" });
+  } catch (error) {
+    console.error("ERROR AL CANCELAR VENTA:", error);
     res.status(500).json({ error: error.message });
   }
 };

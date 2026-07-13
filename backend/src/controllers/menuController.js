@@ -1,59 +1,78 @@
-import Producto from '../models/Producto.js';
+import Producto from "../models/Producto.js";
 
-
-//metodos html son get,push,put,delete
+// metodos html son get,post,put,delete
 // trae los productos
+// 1. Obtener TODOS los productos (Para el panel de Admin - muestra activos e inactivos)
 export const getProductos = async (req, res, next) => {
   try {
-
     // no recibe parametros de entrada, simplemente trae todos los productos de la base de datos
     const productos = await Producto.find();
-    // el codigo 200 signifca que la peticion fue exitosa y se devuelve el resultado en formato JSON
+    // el codigo 200 significa que la peticion fue exitosa y se devuelve el resultado en formato JSON
     res.status(200).json(productos);
   } catch (error) {
-    next(error); // Pasamos el error al middleware global si lo tienes
+    res.status(500).json({ mensaje: "Error al obtener productos", error: error.message });
   }
 };
 
+// 2. Obtener SOLO productos activos (Para la vista del Mesero)
+export const obtenerMenu = async (req, res) => {
+  try {
+    // Buscamos platos donde "disponible" NO sea falso (así incluye los antiguos que no tienen el campo)
+    const menu = await Producto.find({ disponible: { $ne: false } });
+    res.status(200).json(menu);
+  } catch (error) {
+    res.status(500).json({ mensaje: "Error al obtener el menú", error: error.message });
+  }
+};
 
+// 3. Crear producto
 export const crearProducto = async (req, res, next) => {
   try {
     const nuevoProducto = await Producto.create(req.body);
-    // el codigo 201 significa que el recurso fue creado exitosamente y se devuelve el resultado en formato JSON
     res.status(201).json(nuevoProducto);
   } catch (error) {
-    next(error);
+    res.status(500).json({ mensaje: "Error al crear producto", error: error.message });
   }
 };
 
-export const actualizarProducto = async (req, res, next) => {
+// 4. Actualizar producto
+export const actualizarProducto = async (req, res) => {
   try {
     const productoActualizado = await Producto.findByIdAndUpdate(
-      req.params.id, 
-      req.body, 
-      { new: true, runValidators: true } 
+      req.params.id,
+      req.body,
+      { new: true }
     );
+
     if (!productoActualizado) {
-      
       // el codigo 404 significa que el recurso no fue encontrado y se devuelve un mensaje de error en formato JSON
       return res.status(404).json({ mensaje: "Producto no encontrado" });
     }
+
     res.status(200).json(productoActualizado);
   } catch (error) {
-    next(error);
+    res.status(500).json({ mensaje: "Error al actualizar", error: error.message });
   }
 };
 
-export const eliminarProducto = async (req, res, next) => {
+// 5. "Eliminar" producto (Soft Delete - Alternar disponibilidad)
+export const eliminarProducto = async (req, res) => {
   try {
-    const productoEliminado = await Producto.findByIdAndDelete(req.params.id);
-    if (!productoEliminado) {
+    const producto = await Producto.findById(req.params.id);
+    if (!producto) {
       return res.status(404).json({ mensaje: "Producto no encontrado" });
     }
-    res.status(200).json({ mensaje: "Producto eliminado exitosamente" });
+
+    const estadoActual = producto.disponible !== false; 
+    producto.disponible = !estadoActual;
+    
+    await producto.save();
+
+    res.status(200).json({ 
+      mensaje: "Estado del producto actualizado",
+      producto 
+    });
   } catch (error) {
-    next(error);
+    res.status(500).json({ mensaje: "Error al cambiar estado", error: error.message });
   }
 };
-
-export const obtenerMenu = getProductos;

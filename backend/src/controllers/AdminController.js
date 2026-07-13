@@ -8,8 +8,6 @@ export const getReportes = async (req, res) => {
 
     // en el frotned le pasamos los parametros de fechaInicio y fechaFin, que son opcionales, y si no se pasan, se traen todos los pedidos
     const { fechaInicio, fechaFin } = req.query;
-
-    // FIX 1: Filtramos por la palabra exacta que usa tu meseroController
     let matchStage = { estado: 'cerrado' }; 
 
     if (fechaInicio && fechaFin) {
@@ -19,7 +17,6 @@ export const getReportes = async (req, res) => {
       };
     }
 
-    // Pipeline 1: Ingresos Totales y Cantidad de Pedidos
     const ventasTotales = await Pedido.aggregate([
       { $match: matchStage },
       { 
@@ -31,14 +28,11 @@ export const getReportes = async (req, res) => {
       }
     ]);
 
-    // Pipeline 2: Top 5 de Platos Más Vendidos
     const topPlatos = await Pedido.aggregate([
       { $match: matchStage },
-      // FIX 2: Tu modelo guarda los platos en "items"
       { $unwind: "$items" }, 
       { 
         $group: { 
-          // FIX 3: Agrupamos y buscamos por "nombre_plato"
           _id: "$items.nombre_plato", 
           nombre: { $first: "$items.nombre_plato" }, 
           cantidadVendida: { $sum: "$items.cantidad" } 
@@ -64,8 +58,6 @@ export const getBoletas = async (req, res) => {
   try {
     // recibe el id y la fecha como parametros de entrada para los filtros.
     const { id, fecha } = req.query;
-    
-    // FIX 1: Filtramos por 'cerrado'
     let query = { estado: 'cerrado' };
 
     if (id) query._id = id;
@@ -77,11 +69,8 @@ export const getBoletas = async (req, res) => {
       };
     }
 
-    // Usamos lean() para poder modificar el objeto antes de enviarlo
     const boletas = await Pedido.find(query).sort({ createdAt: -1 }).lean(); 
 
-    // FIX 4: Como tu modelo guarda "numero_mesa" directo, lo adaptamos 
-    // para que el frontend lo lea sin problemas en su tabla
     const boletasMapeadas = boletas.map(boleta => ({
       ...boleta,
       mesa: boleta.numero_mesa 
@@ -92,5 +81,21 @@ export const getBoletas = async (req, res) => {
   } catch (error) {
     console.error("Error en getBoletas:", error);
     res.status(500).json({ mensaje: "Error al buscar boletas", error: error.message });
+  }
+};
+
+// --- 3. NUEVA: ELIMINAR BOLETA ---
+export const eliminarBoleta = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const boletaEliminada = await Pedido.findByIdAndDelete(id);
+    
+    if (!boletaEliminada) {
+      return res.status(404).json({ mensaje: "Boleta no encontrada" });
+    }
+    res.status(200).json({ mensaje: "Boleta eliminada correctamente" });
+  } catch (error) {
+    console.error("Error al eliminar boleta:", error);
+    res.status(500).json({ mensaje: "Error al eliminar", error: error.message });
   }
 };
