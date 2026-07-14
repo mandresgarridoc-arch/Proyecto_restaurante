@@ -26,7 +26,7 @@ const Boleta = () => {
     }
   };
 
-  // NUEVA FUNCIÓN: CANCELAR LA VENTA COMPLETAMENTE
+  // FUNCIÓN EXISTENTE: CANCELAR LA VENTA COMPLETAMENTE
   const cancelarVenta = async () => {
     if (window.confirm("⚠️ ¿Estás seguro de CANCELAR esta venta? La mesa quedará libre y el dinero NO se sumará a los reportes.")) {
       try {
@@ -39,6 +39,13 @@ const Boleta = () => {
         alert("No se pudo cancelar la venta.");
       }
     }
+  };
+
+  // NUEVA FUNCIÓN: EDITAR PEDIDO (Agregar o quitar platos)
+  // En lugar de hacer la edición en esta misma pantalla (que es solo un resumen),
+  // redirigimos al mesero a una vista dedicada para editar, pasándole el contexto de la mesa.
+  const editarPedido = () => {
+    navigate("/pedido-editar");
   };
 
   if (!pedido) return <p style={{textAlign: 'center', marginTop: '50px', color: '#64748b'}}>Cargando detalle de la mesa...</p>;
@@ -70,7 +77,16 @@ const Boleta = () => {
           ✅ Finalizar y Cobrar
         </button>
         
-        {/* NUEVO: Botón para Cancelar Venta (Rojo) */}
+        {/* NUEVO: Botón para Editar Pedido (Naranja cálido) */}
+        {/* Usamos un color naranja para indicar una acción de "modificación" o "alerta suave" */}
+        <button 
+          onClick={editarPedido} 
+          style={{ padding: '12px 24px', backgroundColor: '#f59e0b', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold', fontSize: '1rem', boxShadow: '0 2px 4px rgba(245, 158, 11, 0.3)' }}
+        >
+          ✏️ Editar Pedido
+        </button>
+
+        {/* Botón para Cancelar Venta (Rojo) */}
         <button 
           onClick={cancelarVenta} 
           style={{ padding: '12px 24px', backgroundColor: '#ef4444', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold', fontSize: '1rem', boxShadow: '0 2px 4px rgba(239, 68, 68, 0.3)' }}

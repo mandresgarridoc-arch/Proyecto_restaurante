@@ -112,3 +112,45 @@ export const cancelarPedidoAbierto = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+// 8. NUEVA: Editar un pedido abierto (Agregar o quitar platos)
+export const editarPedidoAbierto = async (req, res) => {
+  try {
+    const { numeroMesa, items, total } = req.body;
+
+    // Validación básica
+    if (!numeroMesa || !items) {
+      return res.status(400).json({ error: "Faltan datos para poder editar el pedido" });
+    }
+
+    // TRADUCCIÓN DE DATOS: Tal como lo hacemos al crear el pedido, 
+    // necesitamos transformar lo que manda el frontend al formato que exige nuestro esquema de base de datos.
+    const itemsFormateados = items.map(item => ({
+      nombre_plato: item.nombre,
+      precio_unitario: item.precio,
+      cantidad: item.cantidad
+    }));
+
+    // Buscamos específicamente el pedido que esté "abierto" para esta mesa
+    // y sobrescribimos el array de "items" y el "total" con la nueva información.
+    // { new: true } nos asegura que Mongoose devuelva el documento actualizado y no el antiguo.
+    const pedidoActualizado = await Pedido.findOneAndUpdate(
+      { numero_mesa: numeroMesa, estado: "abierto" },
+      { 
+        items: itemsFormateados, 
+        total: total 
+      },
+      { new: true }
+    );
+
+    // Verificamos si realmente se encontró un pedido para modificar
+    if (!pedidoActualizado) {
+      return res.status(404).json({ error: "No se encontró un pedido abierto para editar en esta mesa" });
+    }
+
+    res.status(200).json({ mensaje: "Pedido editado correctamente", pedido: pedidoActualizado });
+  } catch (error) {
+    console.error("ERROR AL EDITAR EL PEDIDO:", error);
+    res.status(500).json({ error: error.message });
+  }
+};
