@@ -16,7 +16,7 @@ const Boleta = () => {
 
   useEffect(() => {
     // 1. Cargar el pedido actual de la mesa
-    axios.get(`http://localhost:3000/api/mesero/pedido/${mesa}`)
+    axios.get(`https://proyecto-restaurante-owmo.onrender.com/api/mesero/pedido/${mesa}`)
       .then(res => {
         // Formateamos los datos para poder editarlos fácilmente
         const itemsAdaptados = res.data.items.map(item => ({
@@ -30,7 +30,7 @@ const Boleta = () => {
 
     // 2. Cargar el menú para poder agregar productos nuevos
     //axios.get() trae los datos del backend
-    axios.get("http://localhost:3000/api/mesero/menu")
+    axios.get("https://proyecto-restaurante-owmo.onrender.com/api/mesero/menu")
       .then(res => setMenu(res.data))
       .catch(err => console.error("Error al cargar menú:", err));
   }, [mesa]);
@@ -75,7 +75,7 @@ const Boleta = () => {
       return;
     }
     try {
-      await axios.put("http://localhost:3000/api/mesero/pedido/editar", {
+      await axios.put("https://proyecto-restaurante-owmo.onrender.com/api/mesero/pedido/editar", {
         numeroMesa: mesa,
         items: pedidoItems,
         total: calcularTotal()
@@ -90,7 +90,7 @@ const Boleta = () => {
 
   const finalizarYLiberar = async () => {
     try {
-      await axios.post("http://localhost:3000/api/mesero/finalizar", { numeroMesa: mesa });
+      await axios.post("https://proyecto-restaurante-owmo.onrender.com/api/mesero/finalizar", { numeroMesa: mesa });
       alert("✅ Pedido finalizado. Mesa liberada y cobrada.");
       navigate("/listado-mesas");
     } catch (err) {
@@ -102,7 +102,7 @@ const Boleta = () => {
   const cancelarVenta = async () => {
     if (window.confirm("⚠️ ¿Estás seguro de CANCELAR esta venta? La mesa quedará libre.")) {
       try {
-        await axios.post("http://localhost:3000/api/mesero/pedidos/cancelar", { numeroMesa: mesa });
+        await axios.post("https://proyecto-restaurante-owmo.onrender.com/api/mesero/pedidos/cancelar", { numeroMesa: mesa });
         alert("Venta cancelada exitosamente.");
         navigate("/listado-mesas");
       } catch (err) {
