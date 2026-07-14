@@ -11,7 +11,7 @@ const ListadoMesas = () => {
   //useEffect es un hook de react que hace que traiga los datos del backend
   
   useEffect(() => {
-    axios.get("http://localhost:3000/api/mesero/mesas")
+    axios.get("https://proyecto-restaurante-owmo.onrender.com/api/mesero/mesas")
       .then(res => {
         console.log("Datos recibidos:", res.data);
         setMesas(res.data);

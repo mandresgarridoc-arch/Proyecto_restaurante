@@ -4,11 +4,15 @@ import app from "./app.js";
 import connectDB from "./config/db.js";
 import adminRoutes from "./routes/adminRoutes.js";
 
+//Aqui llega la peticion del front y aqui esta el servidor (express) escuchando
+
 dotenv.config();
 
 const PORT = process.env.PORT || 5000;
 
 // 2. Permite peticiones desde cualquier origen (Frontend)
+//Cors es como el guardia de seguridad solo permite pasar peticiones de nuestro front
+
 app.use(cors()); 
 
 // Registrar las rutas de administracion

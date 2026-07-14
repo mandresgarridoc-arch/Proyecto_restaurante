@@ -15,7 +15,7 @@ const Pedido = () => {
 
   // este es un hook de react que se ejecuta cuando el componente se monta, y hace una petición al backend para obtener el menú
   useEffect(() => {
-    axios.get("http://localhost:3000/api/mesero/menu")
+    axios.get("https://proyecto-restaurante-owmo.onrender.com/api/mesero/menu")
       .then(res => setMenu(res.data))
       .catch(err => console.error("Error al cargar menú:", err));
   }, []);
@@ -45,7 +45,7 @@ const Pedido = () => {
     try {
       const total = items.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
       
-      await axios.post("http://localhost:3000/api/mesero/pedido", {
+      await axios.post("https://proyecto-restaurante-owmo.onrender.com/api/mesero/pedido", {
         numeroMesa: mesa,
         items: items,
         total: total

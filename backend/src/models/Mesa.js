@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
-
+//Antes de guardar cualquier cosa mongose revisa el modelo schema
+//si todo esta correcto guarda la info 
 // Aquí defino el objeto del backend, que es basicamente lo mismo que definimos en el modelo de datos de la BD
 const mesaSchema = new mongoose.Schema(
   {

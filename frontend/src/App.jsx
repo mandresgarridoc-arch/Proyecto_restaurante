@@ -5,6 +5,8 @@ import Admin from './pages/Admin';
 import Pedido from './components/Pedido';
 import Boleta from './pages/Boleta';
 
+//Aqui configuro las rutas de react es como el recepcionista del restaurante
+//Solo decide que pagina cargar segun la url
 function App() {
   return (
     <Router>
