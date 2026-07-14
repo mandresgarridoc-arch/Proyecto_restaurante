@@ -16,6 +16,8 @@ const GestionProductos = () => {
     }
   };
 
+  //useEffect es un hook de react que hace que traiga los datos del backend
+  
   useEffect(() => {
     cargarProductos();
   }, []);

@@ -20,6 +20,8 @@ const HistorialBoletas = () => {
     }
   };
 
+
+  
   useEffect(() => {
     cargarBoletas();
   }, []);

@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
 
+//Antes de guardar cualquier cosa mongose revisa el modelo schema
+//si todo esta correcto guarda la info 
+
 const productoSchema = new mongoose.Schema({
   nombre: { type: String, required: true },
   precio: { type: Number, required: true },

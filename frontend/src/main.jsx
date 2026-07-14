@@ -8,3 +8,5 @@ createRoot(document.getElementById('root')).render(
     <App />
   </StrictMode>,
 )
+
+//El main.jsx su unica funcion es agarrar toda la aplicacion de react y pegarla en el archivo html

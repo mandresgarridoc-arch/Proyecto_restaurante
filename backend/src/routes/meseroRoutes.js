@@ -11,9 +11,13 @@ import {
     editarPedidoAbierto    // NUEVO: Importamos la función para editar platos
 } from "../controllers/meseroController.js";
 
+//Aqui llega el paquete del pedido, es la recepcionista 
+//ejemplo: la recepcionista trae un metodo put y lo redirigue a la direccion correspondiente
+// y lo envia a la funcion que le corresponde en el controller
 const router = Router();
 
 // Rutas para gestionar las mesas
+//metodos html son get, post, put, delete
 router.get("/mesas", obtenerMesas);
 router.post("/mesas", crearMesa);
 router.put("/mesas/:id", actualizarEstadoMesa);

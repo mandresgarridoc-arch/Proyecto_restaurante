@@ -1,5 +1,11 @@
 import Pedido from '../models/Pedido.js';
 
+//Este es el cerebro de todo, aqui se crean las funciones
+//Los datos que enviamos desde el frony llegan aqui dentro de un objeto req
+//req es request o peticion, aqui el controlador extrae los datos 
+//luego ordena a la base de datos que haga lo que le pedimos y luego devuelve una respuesta al front
+
+
 // --- 1. REPORTES Y MÉTRICAS ---
 
 // trae los reportes de la base datos

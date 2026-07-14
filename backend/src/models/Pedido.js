@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
 
+//Antes de guardar cualquier cosa mongose revisa el modelo schema
+//si todo esta correcto guarda la info 
+
 // Sub-esquema para los platos individuales
 const itemPedidoSchema = new mongoose.Schema({
   nombre_plato: { 

@@ -1,6 +1,11 @@
 import Producto from "../models/Producto.js";
 
-// metodos html son get,post,put,delete
+//Este es el cerebro de todo, aqui se crean las funciones
+//Los datos que enviamos desde el frony llegan aqui dentro de un objeto req
+//req es request o peticion, aqui el controlador extrae los datos 
+//luego ordena a la base de datos que haga lo que le pedimos y luego devuelve una respuesta al front
+
+
 // trae los productos
 // 1. Obtener TODOS los productos (Para el panel de Admin - muestra activos e inactivos)
 export const getProductos = async (req, res, next) => {

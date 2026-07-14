@@ -2,12 +2,17 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+
+//aqui es pages es donde ocurren nuestras peticiones al backend
+
 const Boleta = () => {
   const [pedidoItems, setPedidoItems] = useState([]);
   const [menu, setMenu] = useState([]);
   const [hayCambios, setHayCambios] = useState(false);
   const mesa = localStorage.getItem("mesaSeleccionada");
   const navigate = useNavigate();
+
+//useEffect es un hook de react que hace que traiga los datos del backend
 
   useEffect(() => {
     // 1. Cargar el pedido actual de la mesa
@@ -24,6 +29,7 @@ const Boleta = () => {
       .catch(err => console.error("Error al traer pedido:", err));
 
     // 2. Cargar el menú para poder agregar productos nuevos
+    //axios.get() trae los datos del backend
     axios.get("http://localhost:3000/api/mesero/menu")
       .then(res => setMenu(res.data))
       .catch(err => console.error("Error al cargar menú:", err));
